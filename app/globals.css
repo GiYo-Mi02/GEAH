@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0a0502;
+  --color-brand-accent: #ff4e00;
+  --color-glass-surface: rgba(255, 80, 20, 0.08);
+  --color-glass-border: rgba(255, 200, 150, 0.15);
+
+  --animate-shimmer: shimmer 1.5s infinite;
+  
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@utility atmosphere {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, #3a1510 0%, transparent 60%),
+              radial-gradient(circle at 10% 80%, var(--color-brand-accent) 0%, transparent 50%);
+  filter: blur(80px);
+  opacity: 0.4;
+  z-index: 0;
+}
+
+@utility glass-panel {
+  background-color: var(--color-glass-surface);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+@utility narrative-text {
+  line-height: 1.8;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+@utility stat-bar-fill {
+  transition: width 1s ease-in-out;
+  box-shadow: 0 0 10px var(--color-brand-accent);
+}
+
+@utility typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: var(--color-brand-accent);
+  margin-left: 4px;
+  vertical-align: middle;
+}
