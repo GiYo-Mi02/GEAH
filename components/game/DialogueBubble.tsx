@@ -18,42 +18,27 @@ export const DialogueBubble: React.FC<DialogueBubbleProps> = ({
   speakerName, 
   onComplete 
 }) => {
-  if (mode === 'narration') {
-    return (
-      <div className="w-full relative">
-        <NarrativeBox 
-          text={text} 
-          onComplete={onComplete}
-          className="text-center italic text-white/70"
-        />
-      </div>
-    );
-  }
-
-  // Dialogue mode
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+      initial={{ opacity: 0, scale: 0.98, y: 8 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-      className="relative w-full max-w-3xl ml-auto md:ml-24"
+      transition={{ type: 'spring', damping: 22, stiffness: 120 }}
+      className="relative w-full z-20"
     >
-      <div className="glass-panel p-6 md:p-8 rounded-2xl rounded-tl-sm border border-white/20 shadow-xl relative">
-        {/* Tail point pointing to character portrait on left */}
-        <div className="absolute top-0 -left-3 w-6 h-6 overflow-hidden">
-          <div className="w-6 h-6 bg-[var(--color-glass-surface)] border border-white/20 rotate-45 transform origin-top-right -translate-y-1/2 translate-x-1/2 shadow-xl backdrop-blur-md" />
-        </div>
-
+      <div className="relative bg-[rgba(15,8,4,0.88)] p-6 rounded-[12px] border border-[rgba(180,130,60,0.4)] shadow-2xl">
         {speakerName && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--color-brand-accent)] mb-3">
+          <div className="font-mono text-[10px] uppercase tracking-[0.25em] font-bold text-amber-200/80 mb-3">
             {speakerName}
           </div>
         )}
 
-        <NarrativeBox 
-          text={text} 
-          onComplete={onComplete}
-        />
+        <div className="max-h-[28vh] overflow-y-auto pr-2 vn-scroll">
+          <NarrativeBox 
+            text={text} 
+            onComplete={onComplete}
+            className="text-[1.1rem] leading-[1.7] text-[#efe7dd] italic"
+          />
+        </div>
       </div>
     </motion.div>
   );

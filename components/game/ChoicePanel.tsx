@@ -39,9 +39,9 @@ const getChoiceMeta = (hint?: string) => {
 
 export const ChoicePanel: React.FC<ChoicePanelProps> = ({ choices, onSelect, disabled = false }) => {
   return (
-    <footer className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8">
+    <footer className="w-full mt-3 flex flex-col gap-2 max-h-[24vh] overflow-y-auto pr-2 vn-scroll">
       {choices.map((choice, index) => {
-        const { Icon, dotColor } = getChoiceMeta(choice.consequence_hint);
+        const { Icon } = getChoiceMeta(choice.consequence_hint);
         
         return (
           <motion.button
@@ -51,28 +51,23 @@ export const ChoicePanel: React.FC<ChoicePanelProps> = ({ choices, onSelect, dis
             transition={{ duration: 0.5, delay: index * 0.15 }}
             disabled={disabled}
             onClick={() => onSelect(choice.id)}
-            className="glass-panel rounded-2xl p-6 text-left hover:bg-white/10 transition-all border-l-4 border-l-white/20 hover:border-l-[var(--color-brand-accent)] group relative overflow-hidden disabled:opacity-50 disabled:pointer-events-none flex items-start gap-4"
+            className="group relative flex items-center gap-3 rounded-full bg-[rgba(30,18,8,0.82)] px-6 py-3 text-left border border-[rgba(180,130,60,0.35)] hover:border-[rgba(210,160,60,0.9)] hover:bg-[rgba(40,24,10,0.86)] transition-all disabled:opacity-50 disabled:pointer-events-none"
           >
-            <div className="mt-1 flex-shrink-0 text-white/40 group-hover:text-[var(--color-brand-accent)] transition-colors relative z-10">
+            <div className="flex-shrink-0 text-amber-200/80 group-hover:text-amber-200 transition-colors relative z-10">
               <Icon size={20} />
             </div>
             
             <div className="flex flex-col flex-1 z-10 relative">
-              <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-white/40 mb-2 group-hover:text-[var(--color-brand-accent)] transition-colors">
-                <span className={`w-1.5 h-1.5 rounded-full ${dotColor} animate-pulse`} />
-                {choice.consequence_hint || 'Choice'}
-              </div>
-              <div className="text-sm font-medium text-[#e0d8d0] leading-relaxed">
+              <div className="text-[0.95rem] font-normal text-white leading-relaxed">
                 {choice.label}
               </div>
             </div>
 
-            {/* Scanline pattern overlay on hover */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 pointer-events-none" 
-                 style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 4px)', backgroundSize: '100% 4px' }}
-            />
-            {/* Hover gradient effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
+            {choice.consequence_hint && (
+              <div className="ml-4 text-[9px] uppercase tracking-[0.2em] text-amber-200/60">
+                {choice.consequence_hint}
+              </div>
+            )}
           </motion.button>
         );
       })}

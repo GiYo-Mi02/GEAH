@@ -83,20 +83,24 @@ export default function GamePage() {
   const currentScene = state.currentScene;
 
   return (
-    <main className="relative min-h-screen bg-[var(--color-brand-bg)] text-[#e0d8d0] overflow-hidden flex flex-col font-sans">
+    <main className="relative min-h-screen bg-transparent text-[#e0d8d0] overflow-hidden flex flex-col font-sans">
       <SceneTransition 
         isTransitioning={isTransitioning} 
         label={currentScene ? `Act ${currentScene.act} · ${currentScene.title}` : ''} 
       />
       
       {currentScene && (
-        <SceneBackground act={currentScene.act} scene={currentScene.scene} />
+        <SceneBackground background={currentScene.background} />
+      )}
+
+      {currentScene && (
+        <CharacterPortrait name={currentScene.speaker || 'The Oracle'} emotion={currentScene.emotion || 'neutral'} />
       )}
       
       <div className="relative z-10 h-full w-full flex flex-col flex-1 p-4 md:p-8">
         <PlayerDashboard />
 
-        <div className="flex-1 flex flex-col w-full max-w-6xl mx-auto items-center justify-center mt-8 md:mt-16">
+        <div className="flex-1 flex flex-col w-full max-w-[1280px] mx-auto justify-end">
           <AnimatePresence mode="wait">
             {state.isLoading ? (
               <motion.div 
@@ -118,11 +122,9 @@ export default function GamePage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, filter: 'blur(10px)' }}
                 transition={{ duration: 0.8 }}
-                className="w-full flex-1 flex flex-col items-center"
+                className="w-full flex flex-col gap-3 pb-6"
               >
-                <div className="relative w-full max-w-4xl min-h-[240px] flex items-center justify-center">
-                  <CharacterPortrait name={currentScene.speaker || 'The Oracle'} emotion={currentScene.emotion || 'neutral'} />
-                  
+                <div className="ml-[28vw] w-[48vw]">
                   <DialogueBubble 
                     mode={currentScene.mode || 'dialogue'} 
                     speakerName={currentScene.speaker || 'The Oracle'}
@@ -133,7 +135,7 @@ export default function GamePage() {
 
                 {/* Choices strictly appear after narrative or if already complete */}
                 {(narrativeComplete && currentScene.choices.length > 0) && (
-                  <div className="w-full max-w-4xl">
+                  <div className="ml-[28vw] w-[48vw]">
                     <ChoicePanel 
                       choices={currentScene.choices} 
                       onSelect={handleChoiceSelect} 

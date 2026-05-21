@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import type { Scene } from '@/lib/types';
 
 interface SceneBackgroundProps {
-  act: number;
-  scene: number;
+  background?: Scene['background'];
 }
 
-const ACT_BACKGROUNDS: Record<number, string> = {
-  1: 'https://picsum.photos/id/1011/1920/1080', // dark forest / nature
-  2: 'https://picsum.photos/id/1040/1920/1080', // ruined castle / architecture
-  3: 'https://picsum.photos/id/1043/1920/1080', // abyss / dark
+const BACKGROUND_ASSETS: Record<NonNullable<Scene['background']>, string> = {
+  forest: '/forest.jpg',
+  castle: '/castle.jpg',
+  abyss: '/night-abyss.jpg',
+  village: '/village.jpg',
+  cave: '/cave.jpg',
+  throne: '/throne.jpg',
 };
 
 // Deterministic array for particles to avoid Math.random during render
@@ -25,14 +28,15 @@ const SCENE_PARTICLES = Array.from({ length: 12 }).map((_, i) => ({
   drift: (i % 2 === 0 ? 5 : -5),
 }));
 
-export const SceneBackground: React.FC<SceneBackgroundProps> = ({ act }) => {
-  const bgImage = ACT_BACKGROUNDS[act] || ACT_BACKGROUNDS[1];
+export const SceneBackground: React.FC<SceneBackgroundProps> = ({ background }) => {
+  const bgImage = background ? BACKGROUND_ASSETS[background] : undefined;
+  const bgKey = bgImage ?? 'dark';
 
   return (
-    <div className="absolute inset-0 z-[-1] overflow-hidden pointer-events-none bg-black">
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-[#0a0a0a]">
       <AnimatePresence mode="wait">
         <motion.div
-          key={bgImage}
+          key={bgKey}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -40,12 +44,17 @@ export const SceneBackground: React.FC<SceneBackgroundProps> = ({ act }) => {
           className="absolute inset-0"
         >
           {/* Layer 1: Static Image */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
-            style={{ backgroundImage: `url(${bgImage})` }}
-          />
+          {bgImage && (
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${bgImage})` }}
+            />
+          )}
         </motion.div>
       </AnimatePresence>
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/55" />
 
       {/* Layer 2: Parallax/Drifting Fog Overlay */}
       <div 
