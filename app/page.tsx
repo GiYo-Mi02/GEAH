@@ -48,7 +48,7 @@ const TEAM = [
   {
     name: 'Villareal John Dave',
     role: 'Quality Assurance',
-    photo: 'https://i.pravatar.cc/160?img=8',
+    photo: '/villareal.jpg',
     quote: 'Guarding the experience with relentless testing.',
   },
   {
@@ -60,7 +60,7 @@ const TEAM = [
   {
     name: 'Senados, Resty Emmanuel',
     role: 'System Designer',
-    photo: 'https://i.pravatar.cc/160?img=56',
+    photo: '/senados.jpg',
     quote: 'Designing the rules that shape every outcome.',
   },
   {
